@@ -7,8 +7,8 @@ import java.util.List;
 public class ScaleTest {
 
     public static void main(String[] args) {
-        final int numOfClient = 100;
-        final int numOfTx = 30;
+        final int numOfClient = 200;
+        final int numOfTx = 300;
         final int numOfPacketsPerTx = 5;
         final long txIntervalMillis = 1_000;
 
@@ -20,6 +20,14 @@ public class ScaleTest {
                 final Thread thread = new Thread(() -> s2sClient.send(metricCollector));
                 thread.start();
                 threads.add(thread);
+
+                try {
+                    // Jitter
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
             }
 
             for (Thread thread : threads) {

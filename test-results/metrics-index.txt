@@ -1,3 +1,5 @@
+
+# Local Macbook to localhost
 - 20190201_1244_1.csv: numOfClient=1, numOfTx=10, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=10, totalFailureTx=0, avgCreateTxMillis=58, avgSendMillis=1, avgConfirmMillis=1, avgCompleteMillis=1
 - 20190201_1246_50.csv: numOfClient=50, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=15000, totalFailureTx=0, avgCreateTxMillis=7, avgSendMillis=0, avgConfirmMillis=1, avgCompleteMillis=1
 - 20190201_1254_100.csv: numOfClient=100, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=30000, totalFailureTx=0, avgCreateTxMillis=10, avgSendMillis=0, avgConfirmMillis=1, avgCompleteMillis=1
@@ -18,3 +20,18 @@
         round-trip min/avg/max/stddev = 2.669/183.117/629.480/215.699 ms
         ```
 - 20190201_1543_100.csv: numOfClient=100, numOfTx=30, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=2877, totalFailureTx=123, avgCreateTxMillis=289, avgSendMillis=0, avgConfirmMillis=24, avgCompleteMillis=8
+
+# AWS EC2 instances
+- 20190201_0812_100.csv: numOfClient=100, numOfTx=30, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=3000, totalFailureTx=0, avgCreateTxMillis=607, avgSendMillis=0, avgConfirmMillis=172, avgCompleteMillis=2
+    - Using EC2 m5d.large instances. One for standalone NiFi and the other is this client test program.
+- 20190201_0816_100.csv: numOfClient=100, numOfTx=30, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=3000, totalFailureTx=0, avgCreateTxMillis=638, avgSendMillis=0, avgConfirmMillis=43, avgCompleteMillis=1
+- 20190201_0818_500.csv: numOfClient=500, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=149295, totalFailureTx=705, avgCreateTxMillis=84, avgSendMillis=0, avgConfirmMillis=79, avgCompleteMillis=2
+    - Lots of timeout happens with 500 clients. Does the server encounter any issue? Let's run it again.
+- 20190201_0829_500.csv: numOfClient=500, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=146506, totalFailureTx=3494, avgCreateTxMillis=97, avgSendMillis=0, avgConfirmMillis=114, avgCompleteMillis=2
+    - Probably 500 clients are too much. Let's lower it to 300.
+- 20190201_0840_300.csv: numOfClient=300, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=89625, totalFailureTx=375, avgCreateTxMillis=65, avgSendMillis=0, avgConfirmMillis=58, avgCompleteMillis=2
+    - Still having timeouts. Let's try 200.
+- 20190201_0851_200.csv: numOfClient=200, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, 
+    - It seems having more connection errors at the beginning. Probably both connection maintenance and create transaction try connecting at the same time. Added jitter.
+- 20190201_0901_200.csv: numOfClient=200, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=59995, totalFailureTx=5, avgCreateTxMillis=31, avgSendMillis=0, avgConfirmMillis=52, avgCompleteMillis=1
+    - 200 client seems the maximum concurrency with this environment.
