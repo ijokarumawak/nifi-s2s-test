@@ -1,0 +1,12 @@
+- 20190201_1244_1.csv: numOfClient=1, numOfTx=10, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=10, totalFailureTx=0, avgCreateTxMillis=58, avgSendMillis=1, avgConfirmMillis=1, avgCompleteMillis=1
+- 20190201_1246_50.csv: numOfClient=50, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=15000, totalFailureTx=0, avgCreateTxMillis=7, avgSendMillis=0, avgConfirmMillis=1, avgCompleteMillis=1
+- 20190201_1254_100.csv: numOfClient=100, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=30000, totalFailureTx=0, avgCreateTxMillis=10, avgSendMillis=0, avgConfirmMillis=1, avgCompleteMillis=1
+- 20190201_1305_500.csv: numOfClient=500, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=149874, totalFailureTx=126, avgCreateTxMillis=52, avgSendMillis=0, avgConfirmMillis=7, avgCompleteMillis=1
+- 20190201_1404_500.csv: numOfClient=500, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=149825, totalFailureTx=175, avgCreateTxMillis=53, avgSendMillis=0, avgConfirmMillis=5, avgCompleteMillis=1
+    - Changed to VolatileProvenanceRepository, but still timeout happens.
+    - Next, change InputPort threads from 8 to 16
+- 20190201_1411_500.csv: numOfClient=500, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=149868, totalFailureTx=132, avgCreateTxMillis=54, avgSendMillis=1, avgConfirmMillis=5, avgCompleteMillis=1
+    - Still timeout occurs.
+- 20190201_1446_500.csv: numOfClient=500, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=149895, totalFailureTx=105, avgCreateTxMillis=56, avgSendMillis=1, avgConfirmMillis=4, avgCompleteMillis=1
+    - After fixing SocketFlowFileServerProtocol's excessive INFO log, number of failures decreased slightly.
+    - Next, use another machine for the client.
