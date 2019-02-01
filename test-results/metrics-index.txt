@@ -35,3 +35,16 @@
     - It seems having more connection errors at the beginning. Probably both connection maintenance and create transaction try connecting at the same time. Added jitter.
 - 20190201_0901_200.csv: numOfClient=200, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=59995, totalFailureTx=5, avgCreateTxMillis=31, avgSendMillis=0, avgConfirmMillis=52, avgCompleteMillis=1
     - 200 client seems the maximum concurrency with this environment.
+
+## with NiFi 1.8.0 on EC2
+- 20190201_0923_200.csv: numOfClient=200, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=60000, totalFailureTx=0, avgCreateTxMillis=2, avgSendMillis=0, avgConfirmMillis=44, avgCompleteMillis=1
+    - The current implementation works just fine with 200 clients..
+- 20190201_0931_500.csv: numOfClient=500, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, 
+    - UpdateAttribute caused backpressure S2S receiving rate exceeds UpdateAttribute.
+    - For next: Increased UpdateAttribute batch duration to 1s.
+- 20190201_0936_500.csv: numOfClient=500, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, - 20190201_0937_500.csv: numOfClient=500, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=107304, totalFailureTx=42696, avgCreateTxMillis=46, avgSendMillis=0, avgConfirmMillis=341, avgCompleteMillis=21
+    - UpdateAttribute still causes backpressure.
+    - [Site-to-Site Listener] o.a.nifi.remote.SocketRemoteSiteListener RemoteSiteListener Unable to accept connection due to java.io.IOException: Too many open files
+    - For next: Increased UpdateAttribute concurrent tasks to 4 and max open files from 1024 to 10240
+- 20190201_1058_500.csv: numOfClient=500, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, 
+    - Didn't finish.
