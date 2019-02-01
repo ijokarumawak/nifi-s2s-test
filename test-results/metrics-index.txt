@@ -10,3 +10,11 @@
 - 20190201_1446_500.csv: numOfClient=500, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=149895, totalFailureTx=105, avgCreateTxMillis=56, avgSendMillis=1, avgConfirmMillis=4, avgCompleteMillis=1
     - After fixing SocketFlowFileServerProtocol's excessive INFO log, number of failures decreased slightly.
     - Next, use another machine for the client.
+- 20190201_1532_10.csv: numOfClient=10, numOfTx=30, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=300, totalFailureTx=0, avgCreateTxMillis=138, avgSendMillis=1, avgConfirmMillis=123, avgCompleteMillis=28
+    - Using different machine. But the network is freaky..
+        ```
+        # ping result
+        68 packets transmitted, 67 packets received, 1.5% packet loss
+        round-trip min/avg/max/stddev = 2.669/183.117/629.480/215.699 ms
+        ```
+- 20190201_1543_100.csv: numOfClient=100, numOfTx=30, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=2877, totalFailureTx=123, avgCreateTxMillis=289, avgSendMillis=0, avgConfirmMillis=24, avgCompleteMillis=8
