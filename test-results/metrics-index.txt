@@ -1,5 +1,5 @@
 
-# Local Macbook to localhost
+# NIO: Local Macbook to localhost
 - 20190201_1244_1.csv: numOfClient=1, numOfTx=10, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=10, totalFailureTx=0, avgCreateTxMillis=58, avgSendMillis=1, avgConfirmMillis=1, avgCompleteMillis=1
 - 20190201_1246_50.csv: numOfClient=50, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=15000, totalFailureTx=0, avgCreateTxMillis=7, avgSendMillis=0, avgConfirmMillis=1, avgCompleteMillis=1
 - 20190201_1254_100.csv: numOfClient=100, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=30000, totalFailureTx=0, avgCreateTxMillis=10, avgSendMillis=0, avgConfirmMillis=1, avgCompleteMillis=1
@@ -21,7 +21,7 @@
         ```
 - 20190201_1543_100.csv: numOfClient=100, numOfTx=30, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=2877, totalFailureTx=123, avgCreateTxMillis=289, avgSendMillis=0, avgConfirmMillis=24, avgCompleteMillis=8
 
-# AWS EC2 instances
+# NIO: AWS EC2 instances
 - 20190201_0812_100.csv: numOfClient=100, numOfTx=30, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=3000, totalFailureTx=0, avgCreateTxMillis=607, avgSendMillis=0, avgConfirmMillis=172, avgCompleteMillis=2
     - Using EC2 m5d.large instances. One for standalone NiFi and the other is this client test program.
 - 20190201_0816_100.csv: numOfClient=100, numOfTx=30, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=3000, totalFailureTx=0, avgCreateTxMillis=638, avgSendMillis=0, avgConfirmMillis=43, avgCompleteMillis=1
@@ -36,7 +36,7 @@
 - 20190201_0901_200.csv: numOfClient=200, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=59995, totalFailureTx=5, avgCreateTxMillis=31, avgSendMillis=0, avgConfirmMillis=52, avgCompleteMillis=1
     - 200 client seems the maximum concurrency with this environment.
 
-## with NiFi 1.8.0 on EC2
+# SOCKET: with NiFi 1.8.0 on EC2
 - 20190201_0923_200.csv: numOfClient=200, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=60000, totalFailureTx=0, avgCreateTxMillis=2, avgSendMillis=0, avgConfirmMillis=44, avgCompleteMillis=1
     - The current implementation works just fine with 200 clients..
 - 20190201_0931_500.csv: numOfClient=500, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, 
@@ -48,3 +48,18 @@
     - For next: Increased UpdateAttribute concurrent tasks to 4 and max open files from 1024 to 10240
 - 20190201_1058_500.csv: numOfClient=500, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, 
     - Didn't finish.
+
+# Thread/Conn: with JDK11 on EC2
+- 20190204_0551_200.csv: numOfClient=200, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=60000, totalFailureTx=0, avgCreateTxMillis=1, avgSendMillis=0, avgConfirmMillis=43, avgCompleteMillis=1
+- 20190204_0558_400.csv: numOfClient=400, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=120000, totalFailureTx=0, avgCreateTxMillis=1, avgSendMillis=0, avgConfirmMillis=43, avgCompleteMillis=1
+- 20190204_0614_500.csv: numOfClient=500, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=150000, totalFailureTx=0, avgCreateTxMillis=1, avgSendMillis=0, avgConfirmMillis=44, avgCompleteMillis=1
+- 20190204_0622_600.csv: numOfClient=600, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=180000, totalFailureTx=0, avgCreateTxMillis=1, avgSendMillis=0, avgConfirmMillis=44, avgCompleteMillis=1
+- 20190204_0630_700.csv: numOfClient=700, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=210000, totalFailureTx=0, avgCreateTxMillis=1, avgSendMillis=0, avgConfirmMillis=46, avgCompleteMillis=1
+- 20190204_0639_800.csv: numOfClient=800, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=240000, totalFailureTx=0, avgCreateTxMillis=1, avgSendMillis=0, avgConfirmMillis=46, avgCompleteMillis=2
+- 20190204_0647_900.csv: numOfClient=900, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=270000, totalFailureTx=0, avgCreateTxMillis=1, avgSendMillis=0, avgConfirmMillis=47, avgCompleteMillis=2
+- 20190204_0655_1000.csv: numOfClient=1000, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=300000, totalFailureTx=0, avgCreateTxMillis=2, avgSendMillis=0, avgConfirmMillis=49, avgCompleteMillis=2
+    - Succeeded test with 1000 clients.
+- 20190204_0704_1200.csv: numOfClient=1200, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=358204, totalFailureTx=1796, avgCreateTxMillis=17, avgSendMillis=0, avgConfirmMillis=105, avgCompleteMillis=4
+    - Server listener thread stops working due to OOM
+- 20190204_0759_1100.csv: numOfClient=1100, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=329976, totalFailureTx=24, avgCreateTxMillis=2, avgSendMillis=0, avgConfirmMillis=64, avgCompleteMillis=2
+    - After restarting NiFi, 1100 clients worked but some failure occurred.

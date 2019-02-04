@@ -7,7 +7,7 @@ import java.util.List;
 public class ScaleTest {
 
     public static void main(String[] args) {
-        final int numOfClient = 500;
+        final int numOfClient = 1100;
         final int numOfTx = 300;
         final int numOfPacketsPerTx = 5;
         final long txIntervalMillis = 1_000;
