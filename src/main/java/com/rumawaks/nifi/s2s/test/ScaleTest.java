@@ -7,13 +7,14 @@ import java.util.List;
 public class ScaleTest {
 
     public static void main(String[] args) {
-        final int numOfClient = 1100;
-        final int numOfTx = 300;
-        final int numOfPacketsPerTx = 5;
-        final long txIntervalMillis = 1_000;
+        final TestOptions testOptions = new TestOptions();
+        testOptions.setNumOfClient(1200);
+        testOptions.setNumOfTx(300);
+        testOptions.setNumOfPacketsPerTx(5);
 
+        final int numOfClient = testOptions.getNumOfClient();
         try (final MetricCollector metricCollector =
-                 new MetricCollector(numOfClient, numOfTx, numOfPacketsPerTx, txIntervalMillis)) {
+                 new MetricCollector(testOptions)) {
             final List<Thread> threads = new ArrayList<>(numOfClient);
             for (int i = 0; i < numOfClient; i++) {
                 final S2SClient s2sClient = new S2SClient(i);

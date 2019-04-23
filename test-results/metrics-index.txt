@@ -63,3 +63,34 @@
     - Server listener thread stops working due to OOM
 - 20190204_0759_1100.csv: numOfClient=1100, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=329976, totalFailureTx=24, avgCreateTxMillis=2, avgSendMillis=0, avgConfirmMillis=64, avgCompleteMillis=2
     - After restarting NiFi, 1100 clients worked but some failure occurred.
+
+# NIO from scratch
+These tests used plain RAW connection (not secured) since secure connection hasn't implemented yet.
+Just to confirm multiple clients work fine with a reasonable performance.
+- 20190423_1406_10.csv: numOfClient=10, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=3000, totalFailureTx=0, avgCreateTxMillis=5, avgSendMillis=0, avgConfirmMillis=6, avgCompleteMillis=0
+- 20190423_1424_100.csv: numOfClient=100, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=30000, totalFailureTx=0, avgCreateTxMillis=0, avgSendMillis=0, avgConfirmMillis=5, avgCompleteMillis=0
+- 20190423_1432_200.csv: numOfClient=200, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=60000, totalFailureTx=0, avgCreateTxMillis=0, avgSendMillis=0, avgConfirmMillis=6, avgCompleteMillis=0
+- 20190423_1443_300.csv: numOfClient=300, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=90000, totalFailureTx=0, avgCreateTxMillis=0, avgSendMillis=0, avgConfirmMillis=6, avgCompleteMillis=1
+- 20190423_1453_500.csv: numOfClient=500, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=150000, totalFailureTx=0, avgCreateTxMillis=0, avgSendMillis=0, avgConfirmMillis=11, avgCompleteMillis=3
+- 20190423_1501_700.csv: numOfClient=700, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=210000, totalFailureTx=0, avgCreateTxMillis=0, avgSendMillis=0, avgConfirmMillis=164, avgCompleteMillis=7
+- 20190423_1511_800.csv: numOfClient=800, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=240000, totalFailureTx=0, avgCreateTxMillis=0, avgSendMillis=0, avgConfirmMillis=1115, avgCompleteMillis=12
+- 20190423_1539_1000.csv: numOfClient=1000, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, - 20190423_1542_1000.csv: numOfClient=1000, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=300000, totalFailureTx=0, avgCreateTxMillis=0, avgSendMillis=0, avgConfirmMillis=2009, avgCompleteMillis=16
+- Increased input port concurrency from 4 to 6
+- 20190423_1602_1200.csv: numOfClient=1200, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=359258, totalFailureTx=742, avgCreateTxMillis=2, avgSendMillis=0, avgConfirmMillis=2660, avgCompleteMillis=25
+- 20190423_1622_1200.csv: numOfClient=1200, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=359043, totalFailureTx=957, avgCreateTxMillis=3, avgSendMillis=0, avgConfirmMillis=3082, avgCompleteMillis=28
+
+2019-04-23 16:40:33,568 ERROR [NIO-Site-to-Site Listener] o.a.n.remote.nio.MessageSequenceHandler Failed to process mess
+age due to org.apache.nifi.processor.exception.ProcessException: org.apache.nifi.remote.exception.RequestExpiredException
+org.apache.nifi.processor.exception.ProcessException: org.apache.nifi.remote.exception.RequestExpiredException
+        at org.apache.nifi.remote.StandardRootGroupPort.startReceivingFlowFiles(StandardRootGroupPort.java:443)
+        at org.apache.nifi.remote.nio.s2s.ReceiveFlowFiles.lambda$new$0(ReceiveFlowFiles.java:53)
+        at org.apache.nifi.remote.nio.stream.StreamData.prepare(StreamData.java:42)
+        at org.apache.nifi.remote.nio.MessageSequenceHandler.processBuffers(MessageSequenceHandler.java:149)
+        at org.apache.nifi.remote.nio.MessageSequenceHandler.selectKeys(MessageSequenceHandler.java:230)
+        at org.apache.nifi.remote.nio.MessageSequenceHandler.start(MessageSequenceHandler.java:57)
+        at org.apache.nifi.remote.nio.s2s.NIORemoteSiteListener.lambda$start$3(NIORemoteSiteListener.java:79)
+        at java.lang.Thread.run(Thread.java:745)
+Caused by: org.apache.nifi.remote.exception.RequestExpiredException: null
+        at org.apache.nifi.remote.StandardRootGroupPort.startReceivingFlowFiles(StandardRootGroupPort.java:434)
+        ... 7 common frames omitted
+

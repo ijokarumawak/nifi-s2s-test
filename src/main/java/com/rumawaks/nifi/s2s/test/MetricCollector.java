@@ -32,10 +32,12 @@ public class MetricCollector implements Closeable {
     private long totalConfirmMillis = 0;
     private long totalCompleteMillis = 0;
 
-    public MetricCollector(int numOfClient, int numOfTx, int numOfPacketsPerTx, long txIntervalMillis) {
-        this.numOfTx = numOfTx;
-        this.numOfPacketsPerTx = numOfPacketsPerTx;
-        this.txIntervalMillis = txIntervalMillis;
+    public MetricCollector(TestOptions options) {
+        this.numOfTx = options.getNumOfTx();
+        this.numOfPacketsPerTx = options.getNumOfPacketsPerTx();
+        this.txIntervalMillis = options.getTxIntervalMillis();
+
+        final int numOfClient = options.getNumOfClient();
 
         final String csvFileName = format("%1$tY%1$tm%1$td_%1$tH%1$tM_%2$d.csv", new Date(), numOfClient);
 
