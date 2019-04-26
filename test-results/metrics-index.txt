@@ -94,3 +94,44 @@ Caused by: org.apache.nifi.remote.exception.RequestExpiredException: null
         at org.apache.nifi.remote.StandardRootGroupPort.startReceivingFlowFiles(StandardRootGroupPort.java:434)
         ... 7 common frames omitted
 
+# Profiling
+- 20190424_0935_200.csv: numOfClient=200, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=59999, totalFailureTx=1, avgCreateTxMillis=0, avgSendMillis=0, avgConfirmMillis=14, avgCompleteMillis=1
+- 20190424_0942_200.csv: numOfClient=200, numOfTx=500, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=100000, totalFailureTx=0, avgCreateTxMillis=0, avgSendMillis=0, avgConfirmMillis=13, avgCompleteMillis=2
+- Changed input port concurrency form 6 to 16.
+- 20190424_0953_1000.csv: numOfClient=1000, numOfTx=500, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=499864, totalFailureTx=136, avgCreateTxMillis=11, avgSendMillis=0, avgConfirmMillis=1119, avgCompleteMillis=44
+- Change Provenance Repo to volatile
+- 20190424_1033_1000.csv: numOfClient=1000, numOfTx=500, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=499957, totalFailureTx=43, avgCreateTxMillis=1, avgSendMillis=0, avgConfirmMillis=558, avgCompleteMillis=32
+- 20190424_1054_1000.csv: numOfClient=1000, numOfTx=500, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=499941, totalFailureTx=59, avgCreateTxMillis=2, avgSendMillis=0, avgConfirmMillis=630, avgCompleteMillis=33
+
+Does the server closes connections?
+10:55:42.892 [Thread-913] ERROR com.rumawaks.nifi.s2s.test.S2SClient - Transaction failed due to java.net.SocketExceptio
+n: Connection reset by peer
+10:55:44.898 [Thread-913] ERROR com.rumawaks.nifi.s2s.test.S2SClient - Transaction failed due to java.lang.NullPointerEx
+ception
+10:55:46.150 [Thread-913] ERROR com.rumawaks.nifi.s2s.test.S2SClient - Transaction failed due to java.net.SocketException: Connection reset by peer
+- 20190424_1128_1000.csv: numOfClient=1000, numOfTx=500, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=493946, totalFailureTx=6054, avgCreateTxMillis=4, avgSendMillis=0, avgConfirmMillis=421, avgCompleteMillis=30
+
+# NIO 10 worker threads
+- 20190424_1630_10.csv: numOfClient=10, numOfTx=500, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=0, totalFailureTx=5000, avgCreateTxMillis=-1, avgSendMillis=-1, avgConfirmMillis=-1, avgCompleteMillis=-1
+- 20190424_1705_10.csv: numOfClient=10, numOfTx=500, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=5000, totalFailureTx=0, avgCreateTxMillis=1, avgSendMillis=0, avgConfirmMillis=5, avgCompleteMillis=0
+- 20190424_1719_1000.csv: numOfClient=1000, numOfTx=500, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=500000, totalFailureTx=0, avgCreateTxMillis=0, avgSendMillis=0, avgConfirmMillis=55, avgCompleteMillis=15
+- 20190424_1731_1200.csv: numOfClient=1200, numOfTx=500, numOfPacketsPerTx=5, txIntervalMillis=1000, - 20190425_0832_1200.csv: numOfClient=1200, numOfTx=500, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=597886, totalFailureTx=2114, avgCreateTxMillis=1, avgSendMillis=0, avgConfirmMillis=1649, avgCompleteMillis=50
+- The cause of failure was that StandardRootGroupPort failed to put new FlowFileRequest into its requestQueue which has size limitation as 1,000. That means it can support only 1000 concurrent requests.
+```
+2019-04-25 08:50:49,883 ERROR [NIOSiteToSite-IO-2] o.a.n.remote.nio.MessageSequenceHandler Failed to process message due to org.apache.nifi.processor.exception.ProcessException: org.apache.nifi.remote.exception.RequestExpiredException
+org.apache.nifi.processor.exception.ProcessException: org.apache.nifi.remote.exception.RequestExpiredException
+        at org.apache.nifi.remote.StandardRootGroupPort.startReceivingFlowFiles(StandardRootGroupPort.java:443)
+        at org.apache.nifi.remote.nio.s2s.ReceiveFlowFiles.lambda$new$0(ReceiveFlowFiles.java:53)
+```
+
+## Increased requestQueue size to 10,000
+- 20190425_0937_1200.csv: numOfClient=1200, numOfTx=500, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=583900, totalFailureTx=16100, avgCreateTxMillis=5, avgSendMillis=0, avgConfirmMillis=1705, avgCompleteMillis=50
+- 20190425_1005_1200.csv: numOfClient=1200, numOfTx=500, numOfPacketsPerTx=5, txIntervalMillis=1000,
+- 20190425_1043_1200.csv: numOfClient=1200, numOfTx=500, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=564386, totalFailureTx=35614, avgCreateTxMillis=6, avgSendMillis=0, avgConfirmMillis=1406, avgCompleteMillis=47
+
+  10 java.io.IOException:Brokenpipe
+   8 java.io.IOException:Connectionreset
+   1 java.io.IOException:Protocolwrong
+  52 java.net.ConnectException:Operationtimed
+  19 java.net.SocketException:Connectionreset
+

@@ -6,6 +6,8 @@ import org.apache.nifi.remote.client.KeystoreType;
 import org.apache.nifi.remote.client.SiteToSiteClient;
 import org.apache.nifi.remote.protocol.DataPacket;
 import org.apache.nifi.remote.util.StandardDataPacket;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -16,6 +18,7 @@ import static java.lang.System.currentTimeMillis;
 
 public class S2SClient {
 
+    private static final Logger LOG = LoggerFactory.getLogger(S2SClient.class);
     private final int id;
 
     public S2SClient(int id) {
@@ -54,6 +57,10 @@ public class S2SClient {
                 try {
                     long s = currentTimeMillis();
                     final Transaction transaction = client.createTransaction(TransferDirection.SEND);
+                    if (transaction == null) {
+                        numOfFailure++;
+                        continue;
+                    }
                     final long _createTxMillis = currentTimeMillis() - s;
 
 
@@ -81,6 +88,7 @@ public class S2SClient {
                     completeMillis += _completeMillis;
 
                 } catch (Exception e) {
+                    LOG.error("Transaction failed due to " + e, e);
                     numOfFailure++;
                 }
 
