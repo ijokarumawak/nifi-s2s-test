@@ -40,8 +40,7 @@ public class S2SClient {
 
         try (
             final SiteToSiteClient client = new SiteToSiteClient.Builder()
-//            .url("https://nifi0:8443/nifi")
-            .url("http://localhost:8080/nifi")
+            .url("https://nifi0:8443/nifi")
             .portName("input")
             .timeout(60, TimeUnit.SECONDS)
             .truststoreFilename("s2s-client/truststore.jks")
