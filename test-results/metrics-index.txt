@@ -145,4 +145,6 @@ org.apache.nifi.processor.exception.ProcessException: org.apache.nifi.remote.exc
 
 The client machine's load-average went up more than 600. It seems 1000 concurrent client may be the hard limit for this VM spec.
 
+## Changed the client EC2 from m5d.large to m5d.xlarge
 
+- 20190514_0526_1500.csv: numOfClient=1500, numOfTx=500, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=750000, totalFailureTx=0, avgCreateTxMillis=7, avgSendMillis=0, avgConfirmMillis=1306, avgCompleteMillis=28
