@@ -8,7 +8,7 @@ public class ScaleTest {
 
     public static void main(String[] args) {
         final TestOptions testOptions = new TestOptions();
-        testOptions.setNumOfClient(1500);
+        testOptions.setNumOfClient(2000);
         testOptions.setNumOfTx(500);
         testOptions.setNumOfPacketsPerTx(5);
 

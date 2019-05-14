@@ -145,6 +145,20 @@ org.apache.nifi.processor.exception.ProcessException: org.apache.nifi.remote.exc
 
 The client machine's load-average went up more than 600. It seems 1000 concurrent client may be the hard limit for this VM spec.
 
-## Changed the client EC2 from m5d.large to m5d.xlarge
+## Changed the client EC2 from m5.large to m5.xlarge
 
 - 20190514_0526_1500.csv: numOfClient=1500, numOfTx=500, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=750000, totalFailureTx=0, avgCreateTxMillis=7, avgSendMillis=0, avgConfirmMillis=1306, avgCompleteMillis=28
+
+## Changed the client EC2 from m5.xlarge to m5.4xlarge
+
+- 20190514_0717_1500.csv: numOfClient=1500, numOfTx=500, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=742985, totalFailureTx=7015, avgCreateTxMillis=3, avgSendMillis=0, avgConfirmMillis=1243, avgCompleteMillis=28
+
+Server side load average was around 6 and 20 on the client machine.
+The errors were connection timeouts.
+Seems like the clients sends requests more actively and reached to the max server capability.
+
+## Changed the server EC2 from m5.large to m5.xlarge
+
+- 20190514_0800_2000.csv: numOfClient=2000, numOfTx=500, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=998491, totalFailureTx=1509, avgCreateTxMillis=2, avgSendMillis=0, avgConfirmMillis=1103, avgCompleteMillis=20
+- How about the socket version?
+- 20190514_0837_2000.csv: numOfClient=2000, numOfTx=500, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=927934, totalFailureTx=72066, avgCreateTxMillis=2, avgSendMillis=0, avgConfirmMillis=48, avgCompleteMillis=1
