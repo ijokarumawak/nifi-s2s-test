@@ -162,3 +162,82 @@ Seems like the clients sends requests more actively and reached to the max serve
 - 20190514_0800_2000.csv: numOfClient=2000, numOfTx=500, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=998491, totalFailureTx=1509, avgCreateTxMillis=2, avgSendMillis=0, avgConfirmMillis=1103, avgCompleteMillis=20
 - How about the socket version?
 - 20190514_0837_2000.csv: numOfClient=2000, numOfTx=500, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=927934, totalFailureTx=72066, avgCreateTxMillis=2, avgSendMillis=0, avgConfirmMillis=48, avgCompleteMillis=1
+
+## NIO Increased IO thread pool from 10 to 100
+
+- 20190515_0830_2000.csv: numOfClient=2000, numOfTx=500, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=989982, totalFailureTx=10018, avgCreateTxMillis=2, avgSendMillis=0, avgConfirmMillis=1415, avgCompleteMillis=23
+
+Increasing the number of IO thread didn't help.
+
+## With site-to-site-client 1.10.0-SNAPSHOT
+
+The latest S2S client adopts a lock to prevent multiple threads fetches peer list at the same time for a client instance. It should help reducing the contention around fetch peer list.
+
+- 20190516_0057_2000.csv: numOfClient=2000, numOfTx=500, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=1000000, totalFailureTx=0, avgCreateTxMillis=2, avgSendMillis=0, avgConfirmMillis=1612, avgCompleteMillis=25
+
+Profiled NiFi server process using Yourkit at the same time. There was no obvious bottle-neck.
+Added more logs to get more insights.
+
+- 20190516_0143_2000.csv: numOfClient=2000, numOfTx=500, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=1000000, totalFailureTx=0, avgCreateTxMillis=0, avgSendMillis=0, avgConfirmMillis=949, avgCompleteMillis=19
+
+Changed InputPort concurrent tasks from 16 to 32
+
+- 20190516_0220_2000.csv: numOfClient=2000, numOfTx=500, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=893437, totalFailureTx=106563, avgCreateTxMillis=24, avgSendMillis=0, avgConfirmMillis=686, avgCompleteMillis=35
+
+To reduce latency, the InputPort's concurrency should be increased.
+But it produces more NW error, probably due to NW contention.
+
+InputPort concurrent tasks = 128
+IO threads = 20
+
+- 20190516_0245_2000.csv: numOfClient=2000, numOfTx=500, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=975559, totalFailureTx=24441, avgCreateTxMillis=12, avgSendMillis=0, avgConfirmMillis=285, avgCompleteMillis=45
+
+## To accept more connections
+
+InputPort concurrent tasks = 20
+IO threads = 20
+- 20190516_0304_2000.csv: numOfClient=2000, numOfTx=500, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=1000000, totalFailureTx=0, avgCreateTxMillis=1, avgSendMillis=0, avgConfirmMillis=861, avgCompleteMillis=21
+
+How about 2500 clients?
+Didn't run successfully. Lots of timeout exception happend. Server's CPU usage was over 80%.
+
+4 CPU cores and 2000 clients may be a guide line.
+
+## 8 CPU cores?
+
+InputPort concurrent tasks = 40
+IO threads = 40
+- 20190516_0447_2500.csv: numOfClient=2500, numOfTx=500, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=1250000, totalFailureTx=0, avgCreateTxMillis=0, avgSendMillis=0, avgConfirmMillis=118, avgCompleteMillis=14
+- 20190516_0505_3000.csv: numOfClient=3000, numOfTx=500, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=1444367, totalFailureTx=55633, avgCreateTxMillis=9, avgSendMillis=0, avgConfirmMillis=149, avgCompleteMillis=17
+
+InputPort concurrent tasks = 30
+IO threads = 30
+- 20190516_0544_3000.csv: numOfClient=3000, numOfTx=500, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=1461914, totalFailureTx=38086, avgCreateTxMillis=6, avgSendMillis=0, avgConfirmMillis=212, avgCompleteMillis=15
+
+InputPort concurrent tasks = 20
+IO threads = 20
+
+- 20190516_0609_3000.csv: numOfClient=3000, numOfTx=500, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=1465431, totalFailureTx=34569, avgCreateTxMillis=6, avgSendMillis=0, avgConfirmMillis=541, avgCompleteMillis=15
+- 20190516_0631_3000.csv: numOfClient=3000, numOfTx=500, numOfPacketsPerTx=5, txIntervalMillis=10, totalSuccessfulTx=1500000, totalFailureTx=0, avgCreateTxMillis=0, avgSendMillis=0, avgConfirmMillis=57, avgCompleteMillis=2
+
+With short interval, the number of concurrent task can be less because each client may finish all transactions before others start.
+
+
+- 20190516_0648_3000.csv: numOfClient=3000, numOfTx=500, numOfPacketsPerTx=5, txIntervalMillis=1000, - 20190516_0710_3000.csv: numOfClient=3000, numOfTx=500, numOfPacketsPerTx=5, txIntervalMillis=1000, 
+
+SSLPeerUnverifiedException occurs with JDK 11.0.2.
+Caused by: java.security.cert.CertificateException: javax.net.ssl.SSLPeerUnverifiedException: peer not authenticated
+https://bugs.openjdk.java.net/browse/JDK-8220723
+
+Try using cached DN.
+- 20190516_0746_3000.csv: numOfClient=3000, numOfTx=500, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=1471405, totalFailureTx=28595, avgCreateTxMillis=6, avgSendMillis=0, avgConfirmMillis=566, avgCompleteMillis=15
+
+Now all errors are timeout. Let's increase threads.
+InputPort concurrent tasks = 40
+IO threads = 40
+
+- 20190516_0813_3000.csv: numOfClient=3000, numOfTx=500, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=1465357, totalFailureTx=34643, avgCreateTxMillis=7, avgSendMillis=0, avgConfirmMillis=139, avgCompleteMillis=16
+
+InputPort concurrent tasks = 100
+IO threads = 40
+- 20190516_0837_3000.csv: numOfClient=3000, numOfTx=500, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=1447821, totalFailureTx=52179, avgCreateTxMillis=6, avgSendMillis=0, avgConfirmMillis=130, avgCompleteMillis=19
