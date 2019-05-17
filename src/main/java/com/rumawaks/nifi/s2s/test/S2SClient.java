@@ -52,9 +52,10 @@ public class S2SClient {
             .build()
         ) {
 
+            long s = currentTimeMillis();
             for (int i = 0; i < numOfTx; i++) {
                 try {
-                    long s = currentTimeMillis();
+                    s = currentTimeMillis();
                     final Transaction transaction = client.createTransaction(TransferDirection.SEND);
                     if (transaction == null) {
                         numOfFailure++;
@@ -87,7 +88,8 @@ public class S2SClient {
                     completeMillis += _completeMillis;
 
                 } catch (Exception e) {
-                    LOG.error("Transaction failed due to " + e, e);
+                    final long failedMillis = currentTimeMillis() - s;
+                    LOG.error("Transaction failed after {} millis due to " + e, failedMillis, e);
                     numOfFailure++;
                 }
 
