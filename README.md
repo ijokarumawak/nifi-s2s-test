@@ -14,6 +14,8 @@ mvn install exec:java -Dexec.mainClass=com.rumawaks.nifi.s2s.test.ScaleTest > /m
 
 ```
 # /etc/security/limits.conf
+# or /etc/security/limits.d/20-nproc.conf
+
 *                soft    nofile          10240
 *                hard    nofile          10240
 *                soft    nproc           10000

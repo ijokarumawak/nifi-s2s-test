@@ -241,3 +241,24 @@ IO threads = 40
 InputPort concurrent tasks = 100
 IO threads = 40
 - 20190516_0837_3000.csv: numOfClient=3000, numOfTx=500, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=1447821, totalFailureTx=52179, avgCreateTxMillis=6, avgSendMillis=0, avgConfirmMillis=130, avgCompleteMillis=19
+
+## Testing with multiple client machines
+Lowered the numOfTx to complete each test run quicker.
+- 20190516_2354_1000.csv: numOfClient=1000, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=300000, totalFailureTx=0, avgCreateTxMillis=0, avgSendMillis=0, avgConfirmMillis=77, avgCompleteMillis=7
+
+- 20190517_0006_1000.csv: 
+    - nifi1: numOfClient=1000, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=300000, totalFailureTx=0, avgCreateTxMillis=0, avgSendMillis=0, avgConfirmMillis=120, avgCompleteMillis=16
+    - nifi2: numOfClient=1000, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=300000, totalFailureTx=0, avgCreateTxMillis=0, avgSendMillis=0, avgConfirmMillis=120, avgCompleteMillis=16
+
+Changed IO thread to 100.
+
+- 20190517_0033_1500.csv: numOfClient=1500, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=420577, totalFailureTx=29423, avgCreateTxMillis=76, avgSendMillis=0, avgConfirmMillis=185, avgCompleteMillis=26
+- 20190517_0049_1500.csv: numOfClient=1500, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=395086, totalFailureTx=54914, avgCreateTxMillis=60, avgSendMillis=0, avgConfirmMillis=218, avgCompleteMillis=25
+
+Multiple client machines didn't address the connection timeout.
+
+## Testing with a single client machines
+
+- 20190517_0145_3000.csv: numOfClient=3000, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=0, totalFailureTx=0, avgCreateTxMillis=-1, avgSendMillis=-1, avgConfirmMillis=-1, avgCompleteMillis=-1
+- 20190517_0243_3000.csv: numOfClient=3000, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=610200, totalFailureTx=0, avgCreateTxMillis=0, avgSendMillis=0, avgConfirmMillis=121, avgCompleteMillis=17
+- 20190517_0259_3000.csv: numOfClient=3000, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=868262, totalFailureTx=31738, avgCreateTxMillis=32, avgSendMillis=0, avgConfirmMillis=143, avgCompleteMillis=21
