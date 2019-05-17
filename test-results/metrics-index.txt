@@ -262,3 +262,20 @@ Multiple client machines didn't address the connection timeout.
 - 20190517_0145_3000.csv: numOfClient=3000, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=0, totalFailureTx=0, avgCreateTxMillis=-1, avgSendMillis=-1, avgConfirmMillis=-1, avgCompleteMillis=-1
 - 20190517_0243_3000.csv: numOfClient=3000, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=610200, totalFailureTx=0, avgCreateTxMillis=0, avgSendMillis=0, avgConfirmMillis=121, avgCompleteMillis=17
 - 20190517_0259_3000.csv: numOfClient=3000, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=868262, totalFailureTx=31738, avgCreateTxMillis=32, avgSendMillis=0, avgConfirmMillis=143, avgCompleteMillis=21
+- 20190517_0545_3000.csv: numOfClient=3000, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, - 20190517_0547_3000.csv: numOfClient=3000, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, - 20190517_0549_3000.csv: numOfClient=3000, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, 
+
+The server's flow didn't process receiving FlowFiles fast enough. The request queue reached to its limit.
+2019-05-17 05:53:35,950 DEBUG [NIOSiteToSite-IO-71] o.a.nifi.remote.StandardRootGroupPort New receiving FlowFile request
+ is offered, requestQueue.size=10000
+2019-05-17 05:53:35,951 ERROR [NIOSiteToSite-IO-71] o.apache.nifi.nio.MessageSequenceHandler Failed to process message d
+ue to org.apache.nifi.processor.exception.ProcessException: org.apache.nifi.remote.exception.RequestExpiredException
+
+## Need more resource at the server
+IO thread=100
+Input Port concurrency=200
+
+- 20190517_0624_3000.csv: numOfClient=3000, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=747025, totalFailureTx=152975, avgCreateTxMillis=58, avgSendMillis=0, avgConfirmMillis=233, avgCompleteMillis=34
+- 20190517_0639_3000.csv: numOfClient=3000, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, 
+
+Is network saturated? Let's test local connection.
+
