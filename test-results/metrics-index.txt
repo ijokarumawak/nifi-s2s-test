@@ -279,3 +279,27 @@ Input Port concurrency=200
 
 Is network saturated? Let's test local connection.
 
+- 20190517_0741_3000.csv: numOfClient=3000, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=852853, totalFailureTx=47147, avgCreateTxMillis=44, avgSendMillis=0, avgConfirmMillis=195, avgCompleteMillis=34
+- 20190520_0101_3000.csv: numOfClient=3000, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=825152, totalFailureTx=74848, avgCreateTxMillis=49, avgSendMillis=0, avgConfirmMillis=309, avgCompleteMillis=48
+- 20190520_0131_3000.csv: numOfClient=3000, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, 
+
+## Register interest only for READ
+
+- 20 IO threads, 100 InputPort threads
+- 20190521_0048_3000.csv: numOfClient=3000, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=897883, totalFailureTx=2117, avgCreateTxMillis=29, avgSendMillis=0, avgConfirmMillis=194, avgCompleteMillis=32
+
+- 50 IO threads, 200 InputPort threads
+- 20190521_0109_3000.csv: numOfClient=3000, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=899993, totalFailureTx=7, avgCreateTxMillis=34, avgSendMillis=0, avgConfirmMillis=217, avgCompleteMillis=35
+
+- 100 IO threads, 100 InputPort threads, idle timeout 60 secs
+- 20190521_0134_3000.csv: numOfClient=3000, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=899999, totalFailureTx=1, avgCreateTxMillis=9, avgSendMillis=0, avgConfirmMillis=141, avgCompleteMillis=21
+
+- 100 IO threads, 100 InputPort threads, idle timeout 60 secs
+- 20190521_0202_3000.csv: numOfClient=3000, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=900000, totalFailureTx=0, avgCreateTxMillis=5, avgSendMillis=0, avgConfirmMillis=139, avgCompleteMillis=22
+- 20190521_0211_3200.csv: numOfClient=3200, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=960000, totalFailureTx=0, avgCreateTxMillis=7, avgSendMillis=0, avgConfirmMillis=147, avgCompleteMillis=23
+- 20190521_0220_3500.csv: numOfClient=3500, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=1049699, totalFailureTx=301, avgCreateTxMillis=10, avgSendMillis=0, avgConfirmMillis=165, avgCompleteMillis=26
+- 200 IO threads, 200 InputPort threads, idle timeout 60 secs
+- 20190521_0239_3500.csv: numOfClient=3500, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=1046915, totalFailureTx=3085, avgCreateTxMillis=52, avgSendMillis=0, avgConfirmMillis=193, avgCompleteMillis=31
+- 100 IO threads, 100 InputPort threads, idle timeout 60 secs
+
+- 20190521_0427_3500.csv: numOfClient=3500, numOfTx=300, numOfPacketsPerTx=5, txIntervalMillis=1000, totalSuccessfulTx=1049993, totalFailureTx=7, avgCreateTxMillis=19, avgSendMillis=0, avgConfirmMillis=169, avgCompleteMillis=29
